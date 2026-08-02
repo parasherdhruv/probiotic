@@ -1,0 +1,377 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+   ║   Lastly Design System — Tailwind v4 Theme Tokens           ║
+   ║                                                              ║
+   ║   Architecture:                                              ║
+   ║   1. @theme {}        → Static brand tokens → Tailwind utils ║
+   ║   2. @layer base      → Semantic CSS vars per theme          ║
+   ║   3. @theme inline {} → CSS vars → Tailwind utilities        ║
+   ╚══════════════════════════════════════════════════════════════╝ */
+
+/* ════════════════════════════════════════════════════════════════
+   PART 1 — Static tokens. Tailwind generates utilities from these.
+   Example: --color-brand-500 → bg-brand-500, text-brand-500, etc.
+   ════════════════════════════════════════════════════════════════ */
+@theme {
+  /* ── Brand Green ──────────────────────────────────────────────
+     Primary brand color: a clean, scientific, premium green.
+     Not a default CSS green — this is a curated OKLCH green
+     with consistent perceptual lightness across the scale.      */
+  --color-brand-50:   oklch(0.97 0.02  155);
+  --color-brand-100:  oklch(0.93 0.04  155);
+  --color-brand-200:  oklch(0.87 0.07  155);
+  --color-brand-300:  oklch(0.78 0.11  155);
+  --color-brand-400:  oklch(0.68 0.14  155);
+  --color-brand-500:  oklch(0.58 0.15  155);  /* ← primary */
+  --color-brand-600:  oklch(0.48 0.13  155);
+  --color-brand-700:  oklch(0.40 0.11  155);
+  --color-brand-800:  oklch(0.33 0.08  155);
+  --color-brand-900:  oklch(0.25 0.06  155);
+  --color-brand-950:  oklch(0.18 0.04  155);
+
+  /* ── Accent Gold ──────────────────────────────────────────────
+     Used for promotional CTAs and highlights.
+     Warm gold pairs with brand green without competing.         */
+  --color-accent-300: oklch(0.90 0.10  85);
+  --color-accent-400: oklch(0.80 0.12  85);
+  --color-accent-500: oklch(0.72 0.14  85);
+  --color-accent-600: oklch(0.62 0.12  85);
+  --color-accent-700: oklch(0.52 0.10  85);
+
+  /* ── Science Blue ─────────────────────────────────────────────
+     Used in the Science Hub, research cards, and evidence UI.   */
+  --color-science-300: oklch(0.82 0.08  240);
+  --color-science-400: oklch(0.72 0.10  240);
+  --color-science-500: oklch(0.62 0.12  240);
+  --color-science-600: oklch(0.52 0.10  240);
+
+  /* ── Fitness Coral ────────────────────────────────────────────
+     Used in fitness/sports audience sections.                   */
+  --color-fitness-300: oklch(0.82 0.10  25);
+  --color-fitness-400: oklch(0.75 0.13  25);
+  --color-fitness-500: oklch(0.65 0.15  25);
+  --color-fitness-600: oklch(0.55 0.13  25);
+
+  /* ── Neutrals ─────────────────────────────────────────────────
+     Slightly cool-tinted (hue 250) for a modern, premium feel.
+     Not pure gray — this makes dark mode feel less sterile.     */
+  --color-neutral-0:    oklch(1.00 0     0);
+  --color-neutral-50:   oklch(0.97 0.005 250);
+  --color-neutral-100:  oklch(0.93 0.005 250);
+  --color-neutral-200:  oklch(0.87 0.005 250);
+  --color-neutral-300:  oklch(0.78 0.005 250);
+  --color-neutral-400:  oklch(0.64 0.005 250);
+  --color-neutral-500:  oklch(0.50 0.005 250);
+  --color-neutral-600:  oklch(0.40 0.005 250);
+  --color-neutral-700:  oklch(0.30 0.005 250);
+  --color-neutral-800:  oklch(0.22 0.005 250);
+  --color-neutral-900:  oklch(0.15 0.01  250);
+  --color-neutral-950:  oklch(0.10 0.01  250);
+
+  /* ── Feedback Colors ──────────────────────────────────────────*/
+  --color-success:  oklch(0.62 0.15  145);
+  --color-warning:  oklch(0.75 0.14  70);
+  --color-error:    oklch(0.60 0.18  25);
+  --color-info:     oklch(0.65 0.10  240);
+
+  /* ── Typography ───────────────────────────────────────────────
+     Inter variable font with optical sizing for a premium feel.
+     Fluid type scale using clamp() for truly responsive text.   */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Fluid scale: clamp(min, preferred, max)
+     Preferred = vw-based value that scales between breakpoints  */
+  --text-xs:   clamp(0.75rem,   0.70rem + 0.25vw,  0.80rem);
+  --text-sm:   clamp(0.875rem,  0.80rem + 0.35vw,  0.95rem);
+  --text-base: clamp(1rem,      0.95rem + 0.25vw,  1.125rem);
+  --text-lg:   clamp(1.125rem,  1.00rem + 0.50vw,  1.30rem);
+  --text-xl:   clamp(1.25rem,   1.10rem + 0.70vw,  1.50rem);
+  --text-2xl:  clamp(1.5rem,    1.20rem + 1.20vw,  2.00rem);
+  --text-3xl:  clamp(1.875rem,  1.40rem + 1.80vw,  2.50rem);
+  --text-4xl:  clamp(2.25rem,   1.60rem + 2.50vw,  3.25rem);
+  --text-5xl:  clamp(3rem,      2.00rem + 3.50vw,  4.50rem);
+  --text-6xl:  clamp(3.75rem,   2.50rem + 4.50vw,  6.00rem);
+
+  /* Line heights */
+  --leading-none:    1;
+  --leading-tight:   1.2;
+  --leading-snug:    1.375;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
+  --leading-loose:   2;
+
+  /* Letter spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight:   -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.02em;
+  --tracking-wider:    0.05em;
+  --tracking-widest:   0.1em;
+
+  /* Font weights */
+  --font-weight-thin:      100;
+  --font-weight-light:     300;
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+  --font-weight-black:     900;
+
+  /* ── Border Radius Scale ──────────────────────────────────────*/
+  --radius-none: 0;
+  --radius-xs:   0.25rem;    /* 4px  — tags, small chips */
+  --radius-sm:   0.375rem;   /* 6px  — inputs, small elements */
+  --radius-md:   0.5rem;     /* 8px  — cards, buttons */
+  --radius-lg:   0.75rem;    /* 12px — modals, panels */
+  --radius-xl:   1rem;       /* 16px — hero cards */
+  --radius-2xl:  1.5rem;     /* 24px — large feature cards */
+  --radius-3xl:  2rem;       /* 32px — section containers */
+  --radius-full: 9999px;     /* pill, avatar */
+
+  /* ── Shadows ──────────────────────────────────────────────────
+     Slightly warm (oklch 0.15 0 0) for a softer premium look.   */
+  --shadow-xs:    0 1px 2px oklch(0.15 0 0 / 0.04);
+  --shadow-sm:    0 1px 3px oklch(0.15 0 0 / 0.06), 0 1px 2px oklch(0.15 0 0 / 0.04);
+  --shadow-md:    0 4px 6px -1px oklch(0.15 0 0 / 0.07), 0 2px 4px -2px oklch(0.15 0 0 / 0.05);
+  --shadow-lg:    0 10px 15px -3px oklch(0.15 0 0 / 0.08), 0 4px 6px -4px oklch(0.15 0 0 / 0.04);
+  --shadow-xl:    0 20px 25px -5px oklch(0.15 0 0 / 0.10), 0 8px 10px -6px oklch(0.15 0 0 / 0.05);
+  --shadow-2xl:   0 25px 50px -12px oklch(0.15 0 0 / 0.18);
+  --shadow-inner: inset 0 2px 4px oklch(0.15 0 0 / 0.06);
+  --shadow-none:  none;
+  /* Brand glow — for product cards, hero, and CTAs */
+  --shadow-glow:    0 0 20px oklch(0.58 0.15 155 / 0.30);
+  --shadow-glow-lg: 0 0 40px oklch(0.58 0.15 155 / 0.25);
+  --shadow-glow-xl: 0 0 80px oklch(0.58 0.15 155 / 0.20);
+
+  /* ── Motion / Animation Tokens ────────────────────────────────
+     Consistent easing curves across Motion and GSAP.
+     Motion uses these via CSS vars. GSAP uses them via JS objects
+     (the values are kept in sync in lib/motion.ts).             */
+  --duration-instant: 0ms;
+  --duration-fast:    150ms;
+  --duration-normal:  300ms;
+  --duration-slow:    500ms;
+  --duration-slower:  800ms;
+  --duration-hero:    1200ms;
+
+  --ease-linear:  linear;
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:      cubic-bezier(0.40, 0, 1, 1);
+  --ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:  cubic-bezier(0.25, 0.10, 0.25, 1);
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-Index Scale ─────────────────────────────────────────── */
+  --z-index-below:    -1;
+  --z-index-base:      0;
+  --z-index-raised:    10;
+  --z-index-dropdown:  100;
+  --z-index-sticky:    200;
+  --z-index-overlay:   300;
+  --z-index-modal:     400;
+  --z-index-toast:     500;
+  --z-index-tooltip:   600;
+  --z-index-supreme:   9999;
+
+  /* ── Breakpoints ──────────────────────────────────────────────*/
+  --breakpoint-xs:  480px;
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1440px;
+  --breakpoint-3xl: 1920px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PART 2 — Semantic CSS variables that change per theme.
+   These are NOT Tailwind utilities by default — they're used
+   directly in CSS (body { color: var(--color-text) }).
+   ════════════════════════════════════════════════════════════════ */
+@layer base {
+  /* ── Light Mode (default) ─────────────────────────────────── */
+  :root {
+    color-scheme: light;
+
+    /* Surface */
+    --color-bg:              oklch(1.00 0     0);
+    --color-bg-subtle:       oklch(0.97 0.005 250);
+    --color-bg-muted:        oklch(0.93 0.005 250);
+    --color-surface:         oklch(1.00 0     0);
+    --color-surface-raised:  oklch(1.00 0     0 / 0.80);
+    --color-surface-overlay: oklch(1.00 0     0 / 0.90);
+
+    /* Text */
+    --color-text:         oklch(0.15 0.01  250);
+    --color-text-muted:   oklch(0.50 0.005 250);
+    --color-text-subtle:  oklch(0.64 0.005 250);
+    --color-text-inverse: oklch(1.00 0     0);
+    --color-text-brand:   oklch(0.48 0.13  155);
+
+    /* Border */
+    --color-border:       oklch(0.87 0.005 250);
+    --color-border-muted: oklch(0.93 0.005 250);
+    --color-border-focus: oklch(0.58 0.15  155);
+    --color-border-brand: oklch(0.68 0.14  155);
+
+    /* ── shadcn/ui v4 compatible tokens ──────────────────────── */
+    --background:              oklch(1.00 0     0);
+    --foreground:              oklch(0.15 0.01  250);
+    --card:                    oklch(1.00 0     0);
+    --card-foreground:         oklch(0.15 0.01  250);
+    --popover:                 oklch(1.00 0     0);
+    --popover-foreground:      oklch(0.15 0.01  250);
+    --primary:                 oklch(0.58 0.15  155);
+    --primary-foreground:      oklch(1.00 0     0);
+    --secondary:               oklch(0.97 0.02  155);
+    --secondary-foreground:    oklch(0.48 0.13  155);
+    --muted:                   oklch(0.97 0.005 250);
+    --muted-foreground:        oklch(0.50 0.005 250);
+    --accent:                  oklch(0.93 0.04  155);
+    --accent-foreground:       oklch(0.40 0.11  155);
+    --destructive:             oklch(0.60 0.18  25);
+    --destructive-foreground:  oklch(1.00 0     0);
+    --border:                  oklch(0.87 0.005 250);
+    --input:                   oklch(0.87 0.005 250);
+    --ring:                    oklch(0.58 0.15  155);
+    --radius:                  0.5rem;
+
+    /* Chart colors (used by shadcn charts) */
+    --chart-1: oklch(0.58 0.15 155);
+    --chart-2: oklch(0.72 0.14 85);
+    --chart-3: oklch(0.62 0.12 240);
+    --chart-4: oklch(0.65 0.15 25);
+    --chart-5: oklch(0.62 0.15 145);
+
+    /* Sidebar (used by shadcn sidebar component) */
+    --sidebar:            oklch(0.97 0.02  155);
+    --sidebar-foreground: oklch(0.15 0.01  250);
+    --sidebar-primary:    oklch(0.58 0.15  155);
+    --sidebar-primary-foreground: oklch(1.00 0 0);
+    --sidebar-accent:     oklch(0.93 0.04  155);
+    --sidebar-accent-foreground: oklch(0.40 0.11 155);
+    --sidebar-border:     oklch(0.87 0.005 250);
+    --sidebar-ring:       oklch(0.58 0.15  155);
+  }
+
+  /* ── Dark Mode ────────────────────────────────────────────── */
+  .dark {
+    color-scheme: dark;
+
+    /* Surface */
+    --color-bg:              oklch(0.10 0.01  250);
+    --color-bg-subtle:       oklch(0.15 0.01  250);
+    --color-bg-muted:        oklch(0.22 0.005 250);
+    --color-surface:         oklch(0.15 0.01  250);
+    --color-surface-raised:  oklch(0.22 0.005 250 / 0.80);
+    --color-surface-overlay: oklch(0.10 0.01  250 / 0.90);
+
+    /* Text */
+    --color-text:         oklch(0.97 0.005 250);
+    --color-text-muted:   oklch(0.64 0.005 250);
+    --color-text-subtle:  oklch(0.50 0.005 250);
+    --color-text-inverse: oklch(0.10 0.01  250);
+    --color-text-brand:   oklch(0.78 0.11  155);
+
+    /* Border */
+    --color-border:       oklch(0.30 0.005 250);
+    --color-border-muted: oklch(0.22 0.005 250);
+    --color-border-focus: oklch(0.68 0.14  155);
+    --color-border-brand: oklch(0.58 0.15  155);
+
+    /* shadcn/ui dark tokens */
+    --background:              oklch(0.10 0.01  250);
+    --foreground:              oklch(0.97 0.005 250);
+    --card:                    oklch(0.15 0.01  250);
+    --card-foreground:         oklch(0.97 0.005 250);
+    --popover:                 oklch(0.15 0.01  250);
+    --popover-foreground:      oklch(0.97 0.005 250);
+    --primary:                 oklch(0.68 0.14  155);
+    --primary-foreground:      oklch(0.10 0.01  250);
+    --secondary:               oklch(0.22 0.005 250);
+    --secondary-foreground:    oklch(0.78 0.11  155);
+    --muted:                   oklch(0.22 0.005 250);
+    --muted-foreground:        oklch(0.64 0.005 250);
+    --accent:                  oklch(0.22 0.005 250);
+    --accent-foreground:       oklch(0.78 0.11  155);
+    --destructive:             oklch(0.65 0.18  25);
+    --destructive-foreground:  oklch(0.97 0.005 250);
+    --border:                  oklch(0.30 0.005 250);
+    --input:                   oklch(0.30 0.005 250);
+    --ring:                    oklch(0.68 0.14  155);
+
+    /* Sidebar dark */
+    --sidebar:            oklch(0.15 0.01  250);
+    --sidebar-foreground: oklch(0.97 0.005 250);
+    --sidebar-primary:    oklch(0.68 0.14  155);
+    --sidebar-primary-foreground: oklch(0.10 0.01 250);
+    --sidebar-accent:     oklch(0.22 0.005 250);
+    --sidebar-accent-foreground: oklch(0.78 0.11 155);
+    --sidebar-border:     oklch(0.30 0.005 250);
+    --sidebar-ring:       oklch(0.68 0.14  155);
+  }
+
+  /* ── High Contrast Overlay ────────────────────────────────── */
+  /* Applied as an additional class alongside light/dark.
+     This is a bonus layer on an already-accessible baseline,
+     not a crutch for a low-contrast default.                    */
+  .high-contrast {
+    --color-text:   oklch(0.03 0 0);
+    --color-border: oklch(0.15 0 0);
+    --foreground:   oklch(0.03 0 0);
+    --border:       oklch(0.15 0 0);
+    --muted-foreground: oklch(0.20 0 0);
+  }
+
+  .dark.high-contrast {
+    --color-text:   oklch(0.99 0 0);
+    --color-border: oklch(0.85 0 0);
+    --foreground:   oklch(0.99 0 0);
+    --border:       oklch(0.85 0 0);
+    --muted-foreground: oklch(0.80 0 0);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PART 3 — Map CSS variables to Tailwind utilities via @theme inline.
+   This makes bg-background, text-foreground, border-border etc.
+   available as Tailwind classes, pointing to our semantic vars.
+   @theme inline does NOT create new CSS custom properties —
+   it tells Tailwind to generate utilities that reference the var.
+   ════════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background:             var(--background);
+  --color-foreground:             var(--foreground);
+  --color-card:                   var(--card);
+  --color-card-foreground:        var(--card-foreground);
+  --color-popover:                var(--popover);
+  --color-popover-foreground:     var(--popover-foreground);
+  --color-primary:                var(--primary);
+  --color-primary-foreground:     var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:                  var(--muted);
+  --color-muted-foreground:       var(--muted-foreground);
+  --color-accent:                 var(--accent);
+  --color-accent-foreground:      var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border:                 var(--border);
+  --color-input:                  var(--input);
+  --color-ring:                   var(--ring);
+  --color-sidebar:                var(--sidebar);
+  --color-sidebar-foreground:     var(--sidebar-foreground);
+  --color-sidebar-primary:        var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:         var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:         var(--sidebar-border);
+  --color-sidebar-ring:           var(--sidebar-ring);
+  --color-chart-1:                var(--chart-1);
+  --color-chart-2:                var(--chart-2);
+  --color-chart-3:                var(--chart-3);
+  --color-chart-4:                var(--chart-4);
+  --color-chart-5:                var(--chart-5);
+}
