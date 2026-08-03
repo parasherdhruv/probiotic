@@ -1,0 +1,240 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+   ║   Lastly Design System — Global Styles (Tailwind v4)        ║
+   ╚══════════════════════════════════════════════════════════════╝
+
+   Import order matters:
+   1. tailwindcss — base reset, utilities, Tailwind v4 engine
+   2. theme.css   — @theme tokens (brand colors, type, motion, radius)
+   3. fonts.css   — font feature overrides
+*/
+
+@import "tailwindcss";
+@import "./theme.css";
+@import "./fonts.css";
+
+/* ── Base Layer ────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Smooth scroll driven by Lenis; native fallback */
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Prevent layout shift when scrollbar appears */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    /* 18px base — serves older adults without separate "large text" mode */
+    font-size: 1.125rem;
+    line-height: var(--leading-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Smooth theme transitions */
+    transition:
+      background-color var(--duration-normal) var(--ease-smooth),
+      color var(--duration-normal) var(--ease-smooth);
+  }
+
+  /* Focus styles — 3px solid, high-contrast, offset by 2px */
+  :focus-visible {
+    outline: 3px solid var(--color-border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Remove focus ring for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Text selection — brand tint */
+  ::selection {
+    background-color: oklch(0.58 0.15 155 / 0.20);
+    color: var(--color-text);
+  }
+
+  /* Responsive media */
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Heading defaults */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+  }
+
+  /* Link defaults */
+  a {
+    color: var(--color-text-brand);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* Paragraph spacing */
+  p {
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Buttons reset */
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* ── Reduced Motion — disable all animations & transitions ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── Skip to Content (keyboard accessibility) ───────────────────── */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: var(--z-index-supreme);
+  padding: 0.5rem 1.5rem;
+  background: var(--color-brand-500);
+  color: white;
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-lg);
+
+  &:focus {
+    top: 1rem;
+  }
+}
+
+/* ── Glassmorphism ───────────────────────────────────────────────── */
+.glass {
+  background: var(--color-surface-raised);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  box-shadow: var(--shadow-lg);
+}
+
+.dark .glass {
+  border-color: oklch(1 0 0 / 0.06);
+}
+
+/* Glass with brand tint */
+.glass-brand {
+  background: oklch(0.58 0.15 155 / 0.08);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid oklch(0.58 0.15 155 / 0.20);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ── Loading Shimmer ─────────────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-muted) 25%,
+    var(--color-bg-subtle) 50%,
+    var(--color-bg-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── Gradient Brand Background ───────────────────────────────────── */
+.bg-brand-gradient {
+  background: linear-gradient(
+    135deg,
+    oklch(0.58 0.15 155),
+    oklch(0.48 0.13 155)
+  );
+}
+
+/* ── Glow Effects ────────────────────────────────────────────────── */
+.glow-brand {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-brand-lg {
+  box-shadow: var(--shadow-glow-lg);
+}
+
+/* ── Scrollbar Styling ───────────────────────────────────────────── */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+
+  &:hover {
+    background: var(--color-text-subtle);
+  }
+}
+
+/* ── Container Utility ───────────────────────────────────────────── */
+.container-app {
+  width: 100%;
+  max-width: var(--breakpoint-2xl);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+/* ── Typography Utilities ────────────────────────────────────────── */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* ── Section Spacing ─────────────────────────────────────────────── */
+.section-padding {
+  padding-block: clamp(4rem, 8vw, 8rem);
+}

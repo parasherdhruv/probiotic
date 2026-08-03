@@ -1,0 +1,36 @@
+/* ── Font Loading ──────────────────────────────────────────────
+   Inter variable font is loaded via <link> preconnect + stylesheet
+   in src/root.tsx (LinksFunction export). That's the correct
+   place for SSR apps — it ensures preconnect fires on every
+   server-rendered response, not just after JS hydration.
+
+   This file handles:
+   - OpenType feature settings for Inter
+   - Variable font optical sizing
+   - Fallback stack adjustments
+─────────────────────────────────────────────────────────────── */
+
+/* Enable Inter's refined optical features */
+@supports (font-variation-settings: normal) {
+  body {
+    /* cv11 = alternate 1, ss01 = disambiguate similar letters */
+    font-feature-settings: 'cv11', 'ss01';
+    /* Optical sizing: Inter looks best at 32+ opsz for large headings */
+    font-variation-settings: 'opsz' 32;
+  }
+
+  h1, h2, h3 {
+    font-variation-settings: 'opsz' 40, 'wght' 700;
+  }
+
+  p, li, td {
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+  }
+}
+
+/* Ensure consistent letter rendering for code/mono */
+code, kbd, pre, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
