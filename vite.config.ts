@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { netlifyPlugin } from '@netlify/vite-plugin-react-router'
 
 export default defineConfig({
   plugins: [
@@ -9,6 +10,7 @@ export default defineConfig({
     tailwindcss(),
     // React Router v7 Framework Mode — handles SSR, routing, prerendering
     reactRouter(),
+    netlifyPlugin(),
     // Resolve path aliases from tsconfig.json (~/*)
     tsconfigPaths(),
   ],
